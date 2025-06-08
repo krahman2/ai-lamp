@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useRef } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const { scrollY, scrollYProgress } = useScroll();
@@ -166,7 +167,7 @@ export default function Home() {
                 whileHover={{ scale: 1.1, y: -2 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <a href="#" className="hover:text-blue-600 transition-colors">{item}</a>
+                <Link href={item === "Home" ? "/" : `/${item.toLowerCase()}`} className="hover:text-blue-600 transition-colors">{item}</Link>
               </motion.li>
             ))}
           </ul>
