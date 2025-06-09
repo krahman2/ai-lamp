@@ -1,14 +1,25 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function ContactPage() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 1;
+    }
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
+    <div className="relative min-h-screen flex flex-col text-gray-800 font-sans">
+      <video ref={videoRef} autoPlay loop muted playsInline className="absolute top-0 left-0 w-full h-full object-cover -z-10 opacity-75">
+        <source src="/white_wallpaper/87787-602074236.mp4" type="video/mp4" />
+      </video>
       {/* Header */}
       <motion.header
         className="px-6 sm:px-12 lg:px-20 py-6 sticky top-0 z-50"
@@ -48,7 +59,7 @@ export default function ContactPage() {
       </motion.header>
       {/* Main Content */}
       <main className="flex-grow flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-xl w-full bg-white p-10 rounded-2xl shadow-lg">
+        <div className="max-w-xl w-full bg-white/50 backdrop-blur-sm p-10 rounded-2xl shadow-lg">
           <h1 className="text-4xl font-extrabold text-gray-900 mb-6 text-center">Contact Us</h1>
           <p className="text-lg text-gray-600 mb-10 text-center">Have a question or want to get in touch? Fill out the form below and we'll get back to you soon.</p>
           <form className="space-y-8">

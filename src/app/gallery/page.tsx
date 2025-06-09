@@ -1,14 +1,25 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function GalleryPage() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.5;
+    }
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
+    <div className="relative min-h-screen flex flex-col text-gray-800 font-sans">
+      <video ref={videoRef} autoPlay loop muted playsInline className="absolute top-0 left-0 w-full h-full object-cover -z-10 opacity-75">
+        <source src="/white_wallpaper/87787-602074236.mp4" type="video/mp4" />
+      </video>
       <motion.header
         className="px-6 sm:px-12 lg:px-20 py-6 sticky top-0 z-50"
         initial={{ y: -100, opacity: 0 }}
