@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+import Footer from "@/components/Footer";
 
 export default function AboutPage() {
   const researchScopes = [
@@ -150,46 +151,71 @@ export default function AboutPage() {
       </motion.header>
 
       <main ref={containerRef} className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-24 items-start">
+        <div className="flex flex-col gap-32">
           <motion.section
-            className="lg:sticky lg:top-32"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: [0.6, 0.01, 0.05, 0.95], delay: 0.2 }}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.6, 0.01, 0.05, 0.95], delay: 0.2 }}
+            className="relative min-h-screen flex items-center"
           >
-            <motion.h1 
-              className="text-5xl font-extrabold text-gray-900 tracking-tighter mb-6"
-              variants={titleVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              {"About".split("").map((char, index) => (
-                <motion.span key={index} variants={letterVariants} className="inline-block">
-                  {char}
-                </motion.span>
-              ))}
-            </motion.h1>
-            <motion.p 
-              className="text-lg text-gray-600 leading-relaxed mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
-            >
-              AI-LAMP is a research lab at San Francisco State University that focuses on research in augmented multimodal perception,
-              developing deep networks and models that interpret and integrate
-              information from multiple sensory inputs. Our work enhances AI's
-              ability to understand complex environments, pushing the boundaries
-              of its impact in areas from accessibility and media to safety.
-            </motion.p>
-            <motion.div style={{ y: imageY }}>
-              <Image
-                src="/ai-lapm designs/6.gif"
-                alt="Generative design element"
-                width={500}
-                height={500}
-                unoptimized
-              />
-            </motion.div>
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <motion.h1 
+                  className="text-6xl font-extrabold text-gray-900 tracking-tighter mb-8"
+                  variants={titleVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {"About".split("").map((char, index) => (
+                    <motion.span key={index} variants={letterVariants} className="inline-block">
+                      {char}
+                    </motion.span>
+                  ))}
+                </motion.h1>
+                <motion.p 
+                  className="text-xl text-gray-600 leading-relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
+                >
+                  AI-LAMP is a research lab at San Francisco State University that focuses on research in augmented multimodal perception,
+                  developing deep networks and models that interpret and integrate
+                  information from multiple sensory inputs. Our work enhances AI's
+                  ability to understand complex environments, pushing the boundaries
+                  of its impact in areas from accessibility and media to safety.
+                </motion.p>
+              </div>
+              <motion.div style={{ y: imageY }} className="flex justify-center">
+                <Image
+                  src="/ai-lapm designs/6.gif"
+                  alt="Generative design element"
+                  width={600}
+                  height={600}
+                  unoptimized
+                />
+              </motion.div>
+            </div>
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
+              <motion.div
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-8 h-8 text-gray-500"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                  />
+                </svg>
+              </motion.div>
+            </div>
           </motion.section>
 
           <motion.section
@@ -251,11 +277,11 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
           >
-            Our research lab is focused on accessibility and well-being,
-            utilizing state-of-the-art video-to-audio generative models
-            to develop AI-driven technologies that enhance human perception.
+            To pioneer research in augmented multimodal perception that pushes the
+            boundaries of AI, enhancing human potential and creating a more
+            inclusive and safer world.
           </motion.p>
         </div>
       </section>
@@ -268,7 +294,7 @@ export default function AboutPage() {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 1, ease: [0.6, 0.01, 0.05, 0.95] }}
           >
-            <h3 className="text-4xl font-bold mb-6">Our Mission</h3>
+            <h3 className="text-4xl font-bold mb-6">Our Work</h3>
             <p className="text-xl leading-loose">
               AI-Lamp Research Team is committed to developing innovative AI-driven technologies that expand the boundaries of human perception, enabling individuals to interact with and comprehend their environment
             </p>
@@ -291,34 +317,7 @@ export default function AboutPage() {
         </div>
       </section>
       
-      <div className="text-center py-16">
-        <Link href="#footer" scroll={true}>
-          <motion.div
-            className="inline-block cursor-pointer"
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <svg
-              className="w-8 h-8 text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
-              />
-            </svg>
-          </motion.div>
-        </Link>
-      </div>
-
-      <footer id="footer" className="text-center py-8">
-        <p className="text-gray-500">&copy; 2025 AI-LAMP. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 } 

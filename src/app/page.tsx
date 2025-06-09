@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const { scrollY, scrollYProgress } = useScroll();
@@ -321,32 +322,10 @@ export default function Home() {
         </section>
       </main>
 
-      <motion.footer 
-        className="bg-gray-50 text-gray-600 py-8 px-6 sm:px-12 lg:px-20"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 1 }}
-      >
-        <div className="container mx-auto flex flex-col md:flex-row justify-center items-center text-sm gap-x-12">
-          <p className="order-2 md:order-1 mt-4 md:mt-0">&copy; 2025 AI-LAMP. All rights reserved.</p>
-          <ul className="order-1 md:order-2 flex space-x-6">
-            {["Home", "About", "People", "Research", "Gallery", "Events"].map((item) => (
-              <li key={item}>
-                <a 
-                  href={item === 'Home' ? '#home' : item === 'Research' ? '#research' : '#'} 
-                  className="hover:text-blue-600 transition-colors"
-                >
-                  {item}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </motion.footer>
+      <Footer />
 
       <motion.div 
-        className="fixed bottom-10 left-1/2 -translate-x-1/2 cursor-pointer"
+        className="fixed bottom-8 right-8 z-50 cursor-pointer"
         style={{ opacity: arrowOpacity, rotate: arrowRotation }}
         onClick={handleArrowClick}
       >
