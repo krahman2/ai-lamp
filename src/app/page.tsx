@@ -1,14 +1,14 @@
 "use client";
 
 import React from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 
 export default function Home() {
-  const { scrollY, scrollYProgress } = useScroll();
+  const { scrollYProgress } = useScroll();
   const arrowOpacity = useTransform(
     scrollYProgress,
     [0, 0.05, 0.95, 1],
