@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { FiMail, FiExternalLink, FiAward, FiBookOpen, FiZap, FiChevronDown, FiInfo, FiChevronUp } from "react-icons/fi";
@@ -64,32 +63,46 @@ export default function PeoplePage() {
     expanded: { opacity: 1, height: "auto", marginTop: "0.75rem" },
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 font-sans flex flex-col">
       <motion.header
         className="px-6 sm:px-12 lg:px-20 py-6 sticky top-0 z-50"
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.8, ease: [0.6, 0.05, -0.01, 0.9] }}
       >
         <nav className="flex justify-between items-center p-3 sm:p-4 bg-white/60 backdrop-blur-xl rounded-xl shadow-lg border border-gray-200/80">
-          <div className="flex items-center space-x-4">
+          <motion.div 
+            className="flex items-center space-x-4"
+            whileHover={{ scale: 1.05, transition: { type: 'spring', stiffness: 300 } }}
+          >
             <Image src="/ai-lapm logo.png" alt="AI-LAMP Logo" width={32} height={32} />
             <span className="text-lg font-bold tracking-tight">AI-LAMP</span>
             <div className="h-6 w-px bg-gray-300"></div>
             <Image src="/channels4_profile.jpg" alt="SFSU Logo" width={32} height={32} className="rounded-full" />
-          </div>
+          </motion.div>
           <ul className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
             {[
-              "Home",
-              "About",
-              "People",
-              "Research",
-              "Gallery",
-              "Events",
-              "Contact",
+              "Home", "About", "People", "Research", "Gallery", "Events", "Contact",
             ].map((item) => (
-              <motion.li key={item} whileHover={{ scale: 1.1, y: -2 }} transition={{ type: "spring", stiffness: 300 }}>
+              <motion.li key={item} whileHover={{ scale: 1.1, y: -2, transition: { type: 'spring', stiffness: 300 } }}>
                 <Link href={item === "Home" ? "/" : `/${item.toLowerCase()}`} className="hover:text-blue-600 transition-colors">
                   {item}
                 </Link>
@@ -101,23 +114,23 @@ export default function PeoplePage() {
 
       <main className="flex-grow flex flex-col items-center justify-center pt-12 pb-16 px-4 sm:px-6 lg:px-8">
         <motion.h1
-          className="text-5xl sm:text-6xl font-extrabold text-gray-900 mb-8 text-center tracking-tight"
-          initial={{ opacity: 0, y: -20 }}
+          className="text-5xl sm:text-6xl font-extrabold text-gray-900 mb-12 text-center tracking-tight"
+          initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.7, delay: 0.1, ease: "circOut" }}
         >
           Meet Our Team
         </motion.h1>
         <motion.div
           className="w-full max-w-[90vw] mx-auto grid md:grid-cols-12 gap-x-10 items-start"
+          variants={containerVariants}
           initial="hidden"
           animate="visible"
-          variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
         >
           {/* Left Sticky Column */}
           <motion.div
             className="md:col-span-4 lg:col-span-3 md:sticky md:top-28 flex flex-col items-center"
-            variants={{ hidden: { opacity: 0, x: -50 }, visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: [0.6, 0.01, 0.05, 0.95] } } }}
+            variants={itemVariants}
           >
             <div className="w-full max-w-[280px] mx-auto">
               <div className="relative w-full aspect-square rounded-2xl shadow-xl overflow-hidden group mb-4">
@@ -133,115 +146,113 @@ export default function PeoplePage() {
           {/* Right Scrollable Column */}
           <motion.div
             className="md:col-span-8 lg:col-span-9 mt-8 md:mt-0"
-            variants={{ hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.6, 0.01, 0.05, 0.95] } } }}
+            variants={containerVariants}
           >
-            <div className="flex flex-col gap-8">
-              {/* Biography Box */}
-              <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg mb-8">
-                <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center"><FiInfo className="mr-3 text-blue-500"/> Biography</h3>
-                <p className="text-sm leading-relaxed text-gray-600">{director.bio[0]}</p>
-                <AnimatePresence>
-                  {isBioExpanded && (
-                    <motion.div
-                      variants={bioVariants}
-                      initial="collapsed"
-                      animate="expanded"
-                      exit="collapsed"
-                      transition={{ duration: 0.4, ease: "easeInOut" }}
-                      className="overflow-hidden"
-                    >
-                      <p className="text-sm leading-relaxed text-gray-600">{director.bio[1]}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                <button
-                  onClick={() => setIsBioExpanded(!isBioExpanded)}
-                  className="mt-4 text-sm font-semibold text-blue-600 hover:text-blue-800 flex items-center"
-                >
-                  {isBioExpanded ? "Read Less" : "Read More"}
-                  {isBioExpanded ? <FiChevronUp className="ml-1" /> : <FiChevronDown className="ml-1" />}
-                </button>
-              </div>
+            {/* Biography Box */}
+            <motion.div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg mb-8" variants={itemVariants}>
+              <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center"><FiInfo className="mr-3 text-blue-500"/> Biography</h3>
+              <p className="text-sm leading-relaxed text-gray-600">{director.bio[0]}</p>
+              <AnimatePresence>
+                {isBioExpanded && (
+                  <motion.div
+                    variants={bioVariants}
+                    initial="collapsed"
+                    animate="expanded"
+                    exit="collapsed"
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <p className="text-sm leading-relaxed text-gray-600">{director.bio[1]}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <button
+                onClick={() => setIsBioExpanded(!isBioExpanded)}
+                className="mt-4 text-sm font-semibold text-blue-600 hover:text-blue-800 flex items-center"
+              >
+                {isBioExpanded ? "Read Less" : "Read More"}
+                {isBioExpanded ? <FiChevronUp className="ml-1" /> : <FiChevronDown className="ml-1" />}
+              </button>
+            </motion.div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Education, Contact, In the News Box */}
-                <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg space-y-8 lg:col-span-1">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center"><FiAward className="mr-3 text-blue-500" /> Education</h3>
-                    <p className="text-sm text-gray-700">{director.education}</p>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center"><FiMail className="mr-3 text-blue-500" /> Contact</h3>
-                    <ul className="space-y-2">
-                      {director.contact.map((item, i) => (
-                        <li key={i} className="flex items-center">
-                          <item.icon className="w-4 h-4 mr-3 text-gray-500 flex-shrink-0" />
-                          <a href={item.href} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-700 hover:text-blue-600 transition-colors break-words">
-                            {item.text}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="mb-2">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center"><FiZap className="mr-3 text-blue-500" /> In the News</h3>
-                    <div className="space-y-2" style={{height: '9.5rem', overflowY: 'auto'}}>
-                      {news.map((item, i) => (
-                        <a href={item.link} key={i} target="_blank" rel="noopener noreferrer" className="block p-2 rounded-lg hover:bg-gray-100 transition-colors group">
-                          <p className="font-medium text-sm text-gray-800 group-hover:text-blue-600">{item.title}</p>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
+            <motion.div className="grid grid-cols-1 lg:grid-cols-3 gap-8" variants={containerVariants}>
+              {/* Education, Contact, In the News Box */}
+              <motion.div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg space-y-8 lg:col-span-1" variants={itemVariants}>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center"><FiAward className="mr-3 text-blue-500" /> Education</h3>
+                  <p className="text-sm text-gray-700">{director.education}</p>
                 </div>
-
-                {/* Publications Box */}
-                <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg lg:col-span-2">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center"><FiBookOpen className="mr-3 text-blue-500" /> Publications</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {publications.map((pub, i) => (
-                      <motion.div
-                        key={i}
-                        className="bg-gray-50 border border-gray-200 rounded-xl p-4 shadow-sm flex flex-col transition-all duration-300 cursor-pointer hover:shadow-md"
-                        initial={false}
-                        animate={{ boxShadow: expandedPub === i ? '0 4px 24px rgba(0,0,0,0.08)' : '0 1px 4px rgba(0,0,0,0.04)' }}
-                        onClick={() => setExpandedPub(expandedPub === i ? -1 : i)}
-                      >
-                        <a
-                          href={pub.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-semibold text-blue-700 hover:underline text-sm md:text-base mb-1 flex items-center"
-                          onClick={e => e.stopPropagation()}
-                        >
-                          {pub.title}
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center"><FiMail className="mr-3 text-blue-500" /> Contact</h3>
+                  <ul className="space-y-2">
+                    {director.contact.map((item, i) => (
+                      <li key={i} className="flex items-center">
+                        <item.icon className="w-4 h-4 mr-3 text-gray-500 flex-shrink-0" />
+                        <a href={item.href} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-700 hover:text-blue-600 transition-colors break-words">
+                          {item.text}
                         </a>
-                        <AnimatePresence initial={false}>
-                          {expandedPub === i && (
-                            <motion.div
-                              key="summary"
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto', marginTop: '0.5rem' }}
-                              exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                              transition={{ duration: 0.3 }}
-                            >
-                              <p className="text-xs md:text-sm text-gray-700">{publicationSummaries[i]}</p>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                        <button
-                          className="mt-2 text-xs text-blue-500 hover:text-blue-700 flex items-center self-end focus:outline-none"
-                          onClick={e => { e.stopPropagation(); setExpandedPub(expandedPub === i ? -1 : i); }}
-                        >
-                          {expandedPub === i ? 'Show Less' : 'Show More'}
-                          {expandedPub === i ? <FiChevronUp className="ml-1" /> : <FiChevronDown className="ml-1" />}
-                        </button>
-                      </motion.div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="mb-2">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center"><FiZap className="mr-3 text-blue-500" /> In the News</h3>
+                  <div className="space-y-2" style={{height: '9.5rem', overflowY: 'auto'}}>
+                    {news.map((item, i) => (
+                      <a href={item.link} key={i} target="_blank" rel="noopener noreferrer" className="block p-2 rounded-lg hover:bg-gray-100 transition-colors group">
+                        <p className="font-medium text-sm text-gray-800 group-hover:text-blue-600">{item.title}</p>
+                      </a>
                     ))}
                   </div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+
+              {/* Publications Box */}
+              <motion.div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg lg:col-span-2" variants={itemVariants}>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center"><FiBookOpen className="mr-3 text-blue-500" /> Publications</h3>
+                <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6" variants={containerVariants}>
+                  {publications.map((pub, i) => (
+                    <motion.div
+                      key={i}
+                      className="bg-gray-50 border border-gray-200 rounded-xl p-4 shadow-sm flex flex-col cursor-pointer"
+                      onClick={() => setExpandedPub(expandedPub === i ? -1 : i)}
+                      whileHover={{ y: -5, boxShadow: '0 8px 30px rgba(0,0,0,0.12)' }}
+                      variants={itemVariants}
+                    >
+                      <a
+                        href={pub.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-blue-700 hover:underline text-sm md:text-base mb-1 flex items-center"
+                        onClick={e => e.stopPropagation()}
+                      >
+                        {pub.title}
+                      </a>
+                      <AnimatePresence initial={false}>
+                        {expandedPub === i && (
+                          <motion.div
+                            key="summary"
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto', marginTop: '0.5rem' }}
+                            exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <p className="text-xs md:text-sm text-gray-700">{publicationSummaries[i]}</p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                      <button
+                        className="mt-2 text-xs text-blue-500 hover:text-blue-700 flex items-center self-end focus:outline-none"
+                        onClick={e => { e.stopPropagation(); setExpandedPub(expandedPub === i ? -1 : i); }}
+                      >
+                        {expandedPub === i ? 'Show Less' : 'Show More'}
+                        {expandedPub === i ? <FiChevronUp className="ml-1" /> : <FiChevronDown className="ml-1" />}
+                      </button>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </motion.div>
+            </motion.div>
           </motion.div>
         </motion.div>
       </main>
