@@ -1,11 +1,11 @@
 "use client";
 
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import React from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState, FC, ElementType } from "react";
 import Footer from "@/components/Footer";
-import { useMotionValue } from "framer-motion";
 
 interface AnimatedTextProps {
   text: string;

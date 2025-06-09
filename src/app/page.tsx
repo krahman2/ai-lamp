@@ -1,10 +1,11 @@
 "use client";
 
-import Image from "next/image";
+import React from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import Image from "next/image";
 
 export default function Home() {
   const { scrollY, scrollYProgress } = useScroll();

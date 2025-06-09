@@ -61,7 +61,7 @@ export default function ContactPage() {
       <main className="flex-grow flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-xl w-full bg-white/50 backdrop-blur-sm p-10 rounded-2xl shadow-lg">
           <h1 className="text-4xl font-extrabold text-gray-900 mb-6 text-center">Contact Us</h1>
-          <p className="text-lg text-gray-600 mb-10 text-center">Have a question or want to get in touch? Fill out the form below and we'll get back to you soon.</p>
+          <p className="text-lg text-gray-600 mb-10 text-center">Have a question or want to get in touch? Fill out the form below and we&apos;ll get back to you soon.</p>
           <form className="space-y-8">
             <div>
               <label htmlFor="name" className="block text-base font-semibold text-gray-700 mb-2">Name</label>
