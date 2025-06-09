@@ -144,7 +144,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white text-gray-800 font-sans overflow-x-hidden">
-      <motion.header 
+      <motion.header
         className="px-6 sm:px-12 lg:px-20 py-6 sticky top-0 z-50"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -162,7 +162,15 @@ export default function Home() {
             <Image src="/channels4_profile.jpg" alt="SFSU Logo" width={32} height={32} className="rounded-full" />
           </motion.div>
           <ul className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
-            {["Home", "About", "People", "Research", "Gallery", "Events"].map((item) => (
+            {[
+              "Home",
+              "About",
+              "People",
+              "Research",
+              "Gallery",
+              "Events",
+              "Contact",
+            ].map((item) => (
               <motion.li 
                 key={item}
                 whileHover={{ scale: 1.1, y: -2 }}

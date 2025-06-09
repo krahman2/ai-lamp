@@ -207,22 +207,28 @@ export default function AboutPage() {
             />
           </motion.div>
           <ul className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
-            {["Home", "About", "People", "Research", "Gallery", "Events"].map(
-              (item) => (
-                <motion.li
-                  key={item}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  transition={{ type: "spring", stiffness: 300 }}
+            {[
+              "Home",
+              "About",
+              "People",
+              "Research",
+              "Gallery",
+              "Events",
+              "Contact",
+            ].map((item) => (
+              <motion.li
+                key={item}
+                whileHover={{ scale: 1.1, y: -2 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <Link
+                  href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                  className="hover:text-blue-600 transition-colors"
                 >
-                  <Link
-                    href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                    className="hover:text-blue-600 transition-colors"
-                  >
-                    {item}
-                  </Link>
-                </motion.li>
-              )
-            )}
+                  {item}
+                </Link>
+              </motion.li>
+            ))}
           </ul>
         </nav>
       </motion.header>

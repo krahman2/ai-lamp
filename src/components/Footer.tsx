@@ -9,6 +9,7 @@ export default function Footer() {
     { name: "People", href: "/people" },
     { name: "Events", href: "/events" },
     { name: "Gallery", href: "/gallery" },
+    { name: "Contact", href: "/contact" },
   ];
   const socialLinks = [
     { name: "GitHub", href: "#" },
