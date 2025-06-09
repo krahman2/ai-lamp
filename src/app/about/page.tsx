@@ -3,8 +3,44 @@
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState, FC, ElementType } from "react";
 import Footer from "@/components/Footer";
+import { useMotionValue } from "framer-motion";
+
+interface AnimatedTextProps {
+  text: string;
+  el?: ElementType;
+  className?: string;
+}
+
+const AnimatedText: FC<AnimatedTextProps> = ({ text, el: Wrapper = "p", className }) => {
+  const textVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.1 } },
+  };
+
+  const lineVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  return (
+    <Wrapper className={className}>
+      <motion.span
+        variants={textVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.8 }}
+      >
+        {text.split("\n").map((line, index) => (
+          <motion.span key={index} variants={lineVariants} className="block">
+            {line}
+          </motion.span>
+        ))}
+      </motion.span>
+    </Wrapper>
+  );
+}
 
 export default function AboutPage() {
   const researchScopes = [
@@ -58,7 +94,7 @@ export default function AboutPage() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.05,
         delayChildren: 0.5,
       },
     },
@@ -98,6 +134,47 @@ export default function AboutPage() {
       },
     },
   };
+
+  const text = "AI-LAMP is a research lab at San Francisco State University that focuses on research in augmented multimodal perception, developing deep networks and models that interpret and integrate information from multiple sensory inputs. Our work enhances AI's ability to understand complex environments, pushing the boundaries of its impact in areas from accessibility and media to safety.";
+
+  interface ResearchScope {
+    title: string;
+    icon: string;
+    description: string;
+  }
+  
+  function ResearchScopeCard({ scope }: { scope: ResearchScope }) {
+    const ref = useRef<HTMLDivElement>(null);
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+      <motion.div
+        ref={ref}
+        key={scope.title}
+        className="flex items-start space-x-6 group p-6 rounded-2xl bg-gray-50/50 transition-all duration-300"
+        variants={itemVariants}
+        whileHover={{ scale: 1.05, boxShadow: "0px 10px 30px -5px rgba(0, 0, 0, 0.1)", backgroundColor: "#FFFFFF" }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <motion.div
+          className="text-3xl flex-shrink-0 mt-1"
+          animate={{ scale: isHovered ? [1, 1.3, 1] : 1 }}
+          transition={{ duration: 0.4, ease: "easeInOut" }}
+        >
+          {scope.icon}
+        </motion.div>
+        <div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            {scope.title}
+          </h3>
+          <p className="text-base text-gray-600 leading-relaxed">
+            {scope.description}
+          </p>
+        </div>
+      </motion.div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-white text-gray-800 font-sans overflow-x-hidden">
@@ -150,16 +227,16 @@ export default function AboutPage() {
         </nav>
       </motion.header>
 
-      <main ref={containerRef} className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-32">
+      <main ref={containerRef} className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-16">
           <motion.section
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.6, 0.01, 0.05, 0.95], delay: 0.2 }}
-            className="relative min-h-screen flex items-center"
+            className="pt-16"
           >
             <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div>
+              <div className="md:-mt-16">
                 <motion.h1 
                   className="text-6xl font-extrabold text-gray-900 tracking-tighter mb-8"
                   variants={titleVariants}
@@ -174,18 +251,25 @@ export default function AboutPage() {
                 </motion.h1>
                 <motion.p 
                   className="text-xl text-gray-600 leading-relaxed"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
                 >
-                  AI-LAMP is a research lab at San Francisco State University that focuses on research in augmented multimodal perception,
-                  developing deep networks and models that interpret and integrate
-                  information from multiple sensory inputs. Our work enhances AI's
-                  ability to understand complex environments, pushing the boundaries
-                  of its impact in areas from accessibility and media to safety.
+                  {text.split(" ").map((word, index) => (
+                    <motion.span
+                      key={index}
+                      variants={itemVariants}
+                      className="inline-block mr-2"
+                    >
+                      {word}
+                    </motion.span>
+                  ))}
                 </motion.p>
               </div>
-              <motion.div style={{ y: imageY }} className="flex justify-center">
+              <motion.div
+                style={{ y: imageY }}
+                className="flex justify-center"
+              >
                 <Image
                   src="/ai-lapm designs/6.gif"
                   alt="Generative design element"
@@ -221,10 +305,11 @@ export default function AboutPage() {
           <motion.section
             variants={containerVariants}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
           >
             <motion.h2 
-              className="text-4xl font-bold text-gray-900 mb-12 tracking-tight"
+              className="text-4xl font-bold text-gray-900 mb-16 tracking-tight"
               variants={titleVariants}
             >
               {"Research Scopes".split("").map((char, index) => (
@@ -233,28 +318,9 @@ export default function AboutPage() {
                 </motion.span>
               ))}
             </motion.h2>
-            <div className="grid md:grid-cols-2 gap-x-12 gap-y-16">
+            <div className="grid md:grid-cols-2 gap-x-16 gap-y-20">
               {researchScopes.map((scope) => (
-                <motion.div
-                  key={scope.title}
-                  className="flex items-start space-x-6 group"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
-                >
-                  <motion.div 
-                    className="text-3xl flex-shrink-0 mt-1 transition-transform duration-500 ease-out group-hover:rotate-12"
-                  >
-                    {scope.icon}
-                  </motion.div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                      {scope.title}
-                    </h3>
-                    <p className="text-base text-gray-600 leading-relaxed">
-                      {scope.description}
-                    </p>
-                  </div>
-                </motion.div>
+                <ResearchScopeCard key={scope.title} scope={scope} />
               ))}
             </div>
           </motion.section>
@@ -272,17 +338,12 @@ export default function AboutPage() {
           >
             Our Mission
           </motion.h2>
-          <motion.p 
-            className="text-xl text-gray-600 leading-loose max-w-3xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-          >
-            To pioneer research in augmented multimodal perception that pushes the
+          <AnimatedText
+            text={`To pioneer research in augmented multimodal perception that pushes the
             boundaries of AI, enhancing human potential and creating a more
-            inclusive and safer world.
-          </motion.p>
+            inclusive and safer world.`}
+            className="text-xl text-gray-600 leading-loose max-w-3xl mx-auto"
+          />
         </div>
       </section>
 
@@ -295,9 +356,13 @@ export default function AboutPage() {
             transition={{ duration: 1, ease: [0.6, 0.01, 0.05, 0.95] }}
           >
             <h3 className="text-4xl font-bold mb-6">Our Work</h3>
-            <p className="text-xl leading-loose">
-              AI-Lamp Research Team is committed to developing innovative AI-driven technologies that expand the boundaries of human perception, enabling individuals to interact with and comprehend their environment
-            </p>
+            <AnimatedText
+              text={`AI-Lamp Research Team is committed to developing innovative AI-driven
+              technologies that expand the boundaries of human perception, enabling
+              individuals to interact with and comprehend their environment`}
+              el="p"
+              className="text-xl leading-loose"
+            />
           </motion.div>
           <motion.div 
             className="flex justify-center"
