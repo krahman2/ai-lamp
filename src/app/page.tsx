@@ -28,8 +28,8 @@ export default function Home() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.4,
-        delayChildren: 0.6,
+        staggerChildren: 0.25,
+        delayChildren: 0.4,
       },
     },
   };
@@ -40,7 +40,7 @@ export default function Home() {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 1.0,
+        duration: 0.7,
         ease: "easeInOut"
       }
     },
@@ -52,7 +52,7 @@ export default function Home() {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 1.6,
+        duration: 1.1,
         ease: [0.6, 0.01, 0.05, 0.95]
       }
     },
@@ -67,8 +67,8 @@ export default function Home() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.07,
-        delayChildren: 0.13,
+        staggerChildren: 0.05,
+        delayChildren: 0.1,
       },
     },
   };
@@ -79,7 +79,7 @@ export default function Home() {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 1.1,
+        duration: 0.75,
         ease: [0.6, 0.01, 0.05, 0.95]
       }
     },
@@ -90,7 +90,7 @@ export default function Home() {
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.7,
+        duration: 0.5,
         ease: "easeInOut"
       }
     },
@@ -148,7 +148,7 @@ export default function Home() {
         className="px-6 sm:px-12 lg:px-20 py-6 sticky top-0 z-50"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <nav className="flex justify-between items-center p-3 sm:p-4 bg-white/60 backdrop-blur-xl rounded-xl shadow-lg border border-gray-200/80">
           <motion.div 
@@ -192,7 +192,7 @@ export default function Home() {
               initial={{ opacity: 0, x: -100, scale: 0.8 }}
               whileInView={{ opacity: 1, x: 0, scale: 1 }}
               viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 1.6, ease: [0.6, 0.01, 0.05, 0.95] }}
+              transition={{ duration: 1.1, ease: [0.6, 0.01, 0.05, 0.95] }}
             >
               <Image src="/ai-lapm designs/1.gif" alt="Generative design element" width={400} height={400} />
             </motion.div>
