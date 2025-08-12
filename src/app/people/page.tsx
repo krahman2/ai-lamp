@@ -132,7 +132,7 @@ export default function PeoplePage() {
     {
       name: "Benjamin Michael Klein",
       title: "Software Engineer, Graduate Student",
-      imageUrl: "/Headshots/ben-placeholder.png",
+      imageUrl: "/Headshots/Photo_17.jpg",
       bio: [
         "Benjamin Michael Klein is a software engineer with a background in Linux-based camera systems and a knack for streamlining workflows through automation and scripting. He earned a B.S. in Computer Science from The Evergreen State College and is currently pursuing graduate studies in Software Engineering at SFSU. At the AI-LAMP lab, he's developing a real-time system that combines text-to-speech and sound effects to assist blind and low-vision users. Alongside his academic work, he builds web projects and draws, always looking for new ways to make technology feel more intuitive and expressive."
       ],
